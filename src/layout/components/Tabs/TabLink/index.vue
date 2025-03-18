@@ -2,7 +2,7 @@
     <component is="router-link" :class="['tab', { 'is-active': route.path === $route.path }]"
         :to="{ path: route.path, query: route.query, fullPath: route.fullPath }" @click.middle="close">
         <svg-icon :icon="route.meta.icon" v-if="showIcon && route.meta.icon" />
-        <span>{{ $t(`route.${route.meta.title}`) }}</span>
+        <span>{{ route.meta.title }}</span>
         <svg-icon class="close-icon" icon="wrong" v-if="showClose" @click.prevent.stop="close" />
     </component>
 </template>

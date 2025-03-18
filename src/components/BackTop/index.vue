@@ -1,6 +1,5 @@
 <template>
-    <el-backtop :target="target" 
-        :visibility-height="160" :title="$t('common.backtop')">
+    <el-backtop :target="target" :visibility-height="160" :title="$t('common.backtop')">
         <template #default>
             <svg-icon icon="to-top" />
         </template>

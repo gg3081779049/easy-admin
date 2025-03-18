@@ -1,5 +1,5 @@
 {
-  "name": "Easy-Admin",
+  "name": "easy-admin",
   "version": "0.1.0",
   "private": true,
   "description": "Easy-Admin",
@@ -12,11 +12,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@dataview/datav-vue3": "^0.0.0-test.1672506674342",
     "axios": "^1.6.8",
     "colord": "2.9.3",
     "core-js": "^3.8.3",
-    "echarts": "^5.6.0",
     "element-plus": "^2.7.2",
     "file-saver": "^2.0.5",
     "fuse.js": "7.0.0",

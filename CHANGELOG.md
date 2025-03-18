@@ -41,5 +41,14 @@ v1.1.0  优化了IconSelect组件
 v1.1.1  更换了所有系统图标
 v1.1.1  升级了SvgIcon组件
 v1.1.1  修改了 search.svg
-v1.1.1  根目录添加了CHANGELOG.md文件
+v1.1.1  根目录添加了 CHANGELOG.md 文件
+v1.1.1  修改了 route.meta.title 的值
+v1.1.1  删除了 router 中的 user 路由
+v1.1.1  菜单管理添加了拖拽按钮
+v1.1.2  添加了table插件
+v1.1.2  升级了EasyTable组件
+v1.1.3  RightToolbar 组件改名为 TableToolbar
+v1.1.3  自动读取更新日志文件内容
+v1.1.3  删除了table插件
+v1.1.3  utils 添加 print.js
 ```

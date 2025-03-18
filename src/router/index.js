@@ -40,11 +40,6 @@ const router = createRouter({
             name: 'Home',
             component: () => import('@/views/modules/home/index.vue'),
             meta: { title: 'home', icon: 'home', noCache: false, hidden: false },
-        }, {
-            path: 'user',
-            name: 'User',
-            component: () => import('@/views/modules/system/user/index.vue'),
-            meta: { title: 'user', icon: 'user', noCache: false, hidden: true },
         }]
     }]
 })

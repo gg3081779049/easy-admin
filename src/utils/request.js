@@ -92,7 +92,7 @@ service.interceptors.response.use(res => {
                 type: 'warning',
             }).then(() => {
                 isRelogin.show = false
-                useUserStore().Logout().then(() => {
+                useUserStore().logout().then(() => {
                     location.href = '/'
                 })
             }).catch(() => {
@@ -134,7 +134,7 @@ export async function download(url, params, filename, config) {
     downloadLoadingInstance = ElLoading.service({ text: $t('message.downloading'), background: 'rgba(0, 0, 0, 0.7)' })
     try {
         const data = await service.post(url, params, {
-            transformRequest: [(params_1) => tansParams(params_1)],
+            transformRequest: [(params) => tansParams(params)],
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             responseType: 'blob',
             ...config

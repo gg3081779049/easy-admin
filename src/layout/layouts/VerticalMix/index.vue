@@ -9,7 +9,7 @@
                     <el-menu-item v-for="item in treeRoutes" :key="item.path" :index="item.path"
                         @click="handleClick(item)">
                         <svg-icon :icon="item.meta.icon" />
-                        <span v-if="!collapse">{{ $t(`route.${item.meta.title}`) }}</span>
+                        <span v-if="!collapse">{{ item.meta.title }}</span>
                     </el-menu-item>
                 </el-menu>
                 <template #footer>
@@ -35,7 +35,7 @@
                     <Menu :data="subMenu?.children" :collapse="false">
                         <template #default="{ meta }">
                             <div><svg-icon class="menu-icon" :icon="meta.icon" /></div>
-                            <span>{{ $t(`route.${meta.title}`) }}</span>
+                            <span>{{ meta.title }}</span>
                         </template>
                     </Menu>
                 </Sidebar>

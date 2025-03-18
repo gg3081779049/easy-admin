@@ -46,7 +46,20 @@ module.exports = [{
     url: '/mock/auth/menu/delete',
     type: 'delete',
     response(req) {
-        menuList.forEach((item, index) => req.body.includes(item.id) && menuList.splice(index, 1))
+        let parentIds = []
+        menuList.forEach((item, index) => {
+            if (req.body.includes(item.id)) {
+                parentIds.push(menuList.splice(index, 1)[0].parentId)
+            }
+        })
+        // 去重
+        parentIds = [...new Set(parentIds)]
+        parentIds.forEach(id => {
+            let childrenList = menuList.filter(item => item.parentId === id).sort((a, b) => a.order - b.order)
+            childrenList.forEach((item, index) => {
+                item.order = index + 1
+            })
+        })
         return {
             code: 200,
             msg: '操作成功'
@@ -65,6 +78,48 @@ module.exports = [{
         return {
             code: 200,
             msg: '操作成功'
+        }
+    }
+}, {
+    url: '/mock/auth/menu/sort',
+    type: 'post',
+    response(req) {
+        const { id, targetId, order } = req.body
+        // 获取 id节点 的所有后代节点的id
+        function getDescIds(menuList, parentId) {
+            let descIds = []
+            menuList.forEach(item => {
+                if (item.parentId === parentId) {
+                    descIds.push(item.id)
+                    descIds = descIds.concat(getDescIds(menuList, item.id))
+                }
+            })
+            return descIds
+        }
+        let descIds = getDescIds(menuList, id)
+        if (descIds.concat(id).includes(targetId)) {
+            return {
+                code: 500,
+                msg: '父级不能拖拽到自己的子级中'
+            }
+        } else {
+            let item = menuList.splice(menuList.findIndex(item => item.id === id), 1)[0]
+            // 找到 item 所有的兄弟节点，然后重新排序
+            let itemBrothers = menuList.filter(item => item.parentId === item.parentId).sort((a, b) => a.order - b.order)
+            itemBrothers.forEach((item, index) => item.order = index + 1)
+            // 修改 item 的 上级菜单
+            item.parentId = targetId
+            // 找到 targetId 的所有子节点，并排序好，然后插入到它的子节点中
+            let targetChildrenList = menuList.filter(item => item.parentId === targetId).sort((a, b) => a.order - b.order)
+            targetChildrenList.splice(order - 1, 0, item)
+            // 插入子节点后，重新排序
+            targetChildrenList.forEach((item, index) => item.order = index + 1)
+            // 最后插入到 menuList 中
+            menuList.push(item)
+            return {
+                code: 200,
+                msg: '操作成功'
+            }
         }
     }
 }]

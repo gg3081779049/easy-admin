@@ -2,12 +2,12 @@
   <el-dropdown trigger="click" teleported>
     <slot :src="avatar" :username="nickname || name">
       <el-avatar :src="avatar" :size="28" class="user-avatar" alt="avatar">
-        <img src="@/assets/images/avatar.png" />
+        <img src="@/assets/images/default-avatar.png" />
       </el-avatar>
     </slot>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="$router.push('/User')">
+        <el-dropdown-item @click="$router.push('/system/user')">
           <span>
             <svg-icon icon="user" />
             {{ $t('operation.userCenter') }}
@@ -19,7 +19,7 @@
             {{ $t('operation.configuration') }}
           </span>
         </el-dropdown-item>
-        <el-dropdown-item divided @click="logout">
+        <el-dropdown-item divided @click="handleLogout">
           <span>
             <svg-icon icon="power" />
             {{ $t('operation.logout') }}
@@ -43,10 +43,10 @@ export default {
     ...mapWritableState(useAppStore, ["showSettings"]),
   },
   methods: {
-    ...mapActions(useUserStore, ["Logout"]),
-    async logout() {
+    ...mapActions(useUserStore, ["logout"]),
+    async handleLogout() {
       this.$modal.confirm.warning(this.$t('message.confirmLogout')).then(() => {
-        return this.Logout()
+        return this.logout()
       }).then(() => {
         return this.$router.push("/login")
       }).then(() => {

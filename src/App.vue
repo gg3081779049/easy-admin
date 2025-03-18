@@ -20,7 +20,7 @@ export default {
   computed: {
     ...mapState(useSettingsStore, ['dynamicTitle']),
     title() {
-      let title = this.$t(`route.${useAppStore().title}`)
+      let title = useAppStore().title
       let content = this.$tm('system').title || process.env.VUE_APP_TITLE
       if (this.dynamicTitle && title) {
         return `${title} - ${content}`

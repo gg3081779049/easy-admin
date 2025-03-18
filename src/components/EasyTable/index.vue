@@ -1,5 +1,5 @@
 <template>
-    <el-table class="easy-table" :tooltip-options="{ showAfter: 600 }" border>
+    <el-table class="easy-table" :tooltip-options="{ showAfter: 600 }" border @select="handleSelect">
         <template v-for="(column, index) in tableColumns" :key="index">
             <component :is="column" v-if="!column.props.hidden" />
         </template>
@@ -14,6 +14,7 @@
 
 <script lang="jsx">
 import { removeIf } from '@/utils'
+import { printTable } from "@/utils/print"
 
 export default {
     name: 'EasyTable',
@@ -25,6 +26,7 @@ export default {
     },
     data() {
         return {
+            selections: [],
             defaultTableColumn: {
                 'align': 'center',
                 'show-overflow-tooltip': ''
@@ -40,6 +42,9 @@ export default {
         this.columns.unshift(...slotsMap)
     },
     computed: {
+        single() {
+            return this.selections.length === 1
+        },
         tableColumns() {
             return this.columns.map(column => {
                 return (
@@ -56,6 +61,17 @@ export default {
                 )
             })
         }
+    },
+    methods: {
+        handleSelect(selections) {
+            this.selections = selections
+        },
+        print(options) {
+            let { isHead = true, isSelected = true } = options || {}
+            let data = isSelected && this.selections.length ? this.selections : this.$attrs.data
+            let columns = this.columns.filter(column => !column.hidden && column.noPrint !== true)
+            printTable(data, columns, { isHead })
+        },
     }
 }
 </script>

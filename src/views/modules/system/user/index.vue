@@ -1,8 +1,6 @@
 <template>
   <div class="app-card" :style="{ height: `calc(100vh - ${!tabFullscreen * headerHeight + showTabs * tabsHeight + 40}px)` }">
-    <h3 class="header p14">
-      {{ $t('route.user') }}
-    </h3>
+    <h3 class="header p14">{{ $route.meta.title }}</h3>
     <div class="body">
       <div class="aside">
         <div :class="['menu-item', { 'activeItem' : i === activeIndex }]" v-for="(item, i) in menuList" :key="item"

@@ -43,3 +43,12 @@ export function updateItem(form) {
         data: form
     })
 }
+
+// 排序菜单
+export function sortItem(id, targetId, order) {
+    return request({
+        url: '/auth/menu/sort',
+        method: 'post',
+        data: { id, targetId, order }
+    })
+}

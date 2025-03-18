@@ -47,6 +47,7 @@ import Cookies from "js-cookie"
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 import { useAppStore } from '@/store/modules/app'
 import { useUserStore } from '@/store/modules/user'
+import { mapState } from 'pinia'
 
 import SystemLogo from '@/components/SystemLogo'
 import Captcha from '@/components/Captcha'
@@ -57,7 +58,6 @@ export default {
   components: { SystemLogo, Captcha, LangSelect },
   data() {
     return {
-      title: useAppStore().title,
       img: "",
       uuid: "",
       loginForm: {
@@ -78,6 +78,10 @@ export default {
   },
   created() {
     this.getCookie()
+  },
+  computed: {
+    ...mapState(useAppStore, ['title']),
+    ...mapState(useUserStore, ['name', 'nickname'])
   },
   methods: {
     getCookie() {
@@ -111,13 +115,13 @@ export default {
         Cookies.remove("password")
         Cookies.remove('rememberMe')
       }
-      useUserStore().Login(this.loginForm).then(() => {
+      useUserStore().login(this.loginForm).then(() => {
         let loginSuccess = this.$t('message.loginSuccess')
         let welcomeBack = this.$t('message.welcomeBack')
         this.$router.push({ path: this.$route.query?.redirect || "/" }).then(() => {
           this.$notify.success({
             title: loginSuccess,
-            message: `${welcomeBack}, ${useUserStore().nickname || useUserStore().name} !`
+            message: `${welcomeBack}, ${this.nickname || this.name} !`
           })
         }).catch(() => { })
       }).catch(() => {

@@ -10,15 +10,11 @@ export const useRouteStore = defineStore('route', {
     }),
     actions: {
         // 生成路由
-        GenerateRoutes() {
-            return new Promise(resolve => {
-                // 向后端请求路由数据
-                getRoutes().then(res => {
-                    this.treeRoutes = convertArrayToTree(res.data)
-                    this.listRoutes = convertTreeToArray(this.treeRoutes)
-                    resolve(createRoutes(this.listRoutes))
-                })
-            })
+        async generateRoutes() {
+            const res = await getRoutes()
+            this.treeRoutes = convertArrayToTree(res.data)
+            this.listRoutes = convertTreeToArray(this.treeRoutes)
+            return createRoutes(this.listRoutes)
         }
     }
 })

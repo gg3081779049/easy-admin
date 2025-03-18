@@ -28,16 +28,16 @@ router.beforeEach((to, from, next) => {
             } else {
                 isRelogin.show = true
                 // 判断当前用户是否已拉取完user_info信息
-                userStore.GetInfo().then(() => {
+                userStore.getInfo().then(() => {
                     isRelogin.show = false
-                    useRouteStore().GenerateRoutes().then((accessRoutes) => {
+                    useRouteStore().generateRoutes().then((accessRoutes) => {
                         // 动态添加可访问路由表
                         accessRoutes.forEach(route => router.addRoute('Layout', route))
                         router.addRoute('Layout', { path: '/:pathMatch(.*)*', redirect: '404' })
                         next({ ...to, replace: true })
                     })
                 }).catch(err => {
-                    userStore.Logout().then(() => {
+                    userStore.logout().then(() => {
                         ElMessage.error(err)
                         next({ path: '/' })
                     })

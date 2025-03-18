@@ -26,6 +26,7 @@ export default {
         reset() {
             this.$refs['queryForm']?.resetFields()
             this.$emit('reset')
+            this.$emit('search')
         }
     }
 }

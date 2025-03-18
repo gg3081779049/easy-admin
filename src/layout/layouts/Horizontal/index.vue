@@ -6,7 +6,7 @@
                 <Menu :data="treeRoutes" mode="horizontal">
                     <template #default="{ meta }">
                         <svg-icon class="menu-icon" :icon="meta.icon" />
-                        <span>{{ $t(`route.${meta.title}`) }}</span>
+                        <span>{{ meta.title }}</span>
                     </template>
                 </Menu>
             </Navbar>
@@ -20,7 +20,7 @@
                         <Menu :data="treeRoutes" mode="horizontal">
                             <template #default="{ meta }">
                                 <svg-icon class="menu-icon" :icon="meta.icon" />
-                                <span>{{ $t(`route.${meta.title}`) }}</span>
+                                <span>{{ meta.title }}</span>
                             </template>
                         </Menu>
                     </Navbar>

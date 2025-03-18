@@ -59,12 +59,11 @@ module.exports.treeToArray = function (tree) {
     let idCounter = 1
     function traverse(node, parentNodes, order) {
         node.id = idCounter++
-        let hasChild = childrenKey in node
-        let newNode = { ...node, parentId: parentNodes.at(-1)?.id || 0, order, hasChild }
+        let newNode = { ...node, parentId: parentNodes.at(-1)?.id || 0, order, hasChild: childrenKey in node }
         delete newNode[childrenKey]
         array.push(newNode)
         node[childrenKey]?.forEach((child, index) => traverse(child, [...parentNodes, node], index + 1))
     }
-    tree.forEach(node => traverse(node, [], 0))
+    tree.forEach((node, index) => traverse(node, [], index + 1))
     return array
 }

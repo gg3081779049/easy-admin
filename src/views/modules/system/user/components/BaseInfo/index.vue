@@ -80,10 +80,10 @@ export default {
                 email: [{
                     trigger: 'blur',
                     validator(rule, value, callback) {
-                        if (!validEmail(value)) {
-                            callback(new Error('邮箱输入错误'))
-                        } else {
+                        if (validEmail(value)) {
                             callback()
+                        } else {
+                            callback(new Error('邮箱输入错误'))
                         }
                     }
                 }]

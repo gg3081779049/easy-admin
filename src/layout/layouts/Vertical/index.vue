@@ -10,7 +10,7 @@
                         <div>
                             <svg-icon class="menu-icon" :icon="meta.icon" />
                         </div>
-                        <span>{{ $t(`route.${meta.title}`) }}</span>
+                        <span>{{ meta.title }}</span>
                     </template>
                 </Menu>
                 <template #footer>

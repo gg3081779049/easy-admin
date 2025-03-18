@@ -227,10 +227,9 @@ export default {
                 this.$emit('update:modelValue', newColor.toHex())
             }
         },
-        absorbColor() {
-            new EyeDropper().open().then((res) => {
-                this.$emit('update:modelValue', res.sRGBHex)
-            })
+        async absorbColor() {
+            const res = await EyeDropper().open()
+            this.$emit('update:modelValue', res.sRGBHex)
         },
         setPanel(x, y) {
             const panel = this.$refs.panelRef || { clientWidth: 225, clientHeight: 225 }

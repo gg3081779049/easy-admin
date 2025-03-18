@@ -12,7 +12,7 @@
         <template #default="{ src, username }">
           <div class="avatar-wrapper">
             <el-avatar :size="28" :src="src" alt="avatar">
-              <img src="@/assets/images/avatar.png" />
+              <img src="@/assets/images/default-avatar.png" />
             </el-avatar>
             <span>{{ username }}</span>
             <svg-icon icon="R" />

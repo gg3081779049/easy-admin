@@ -29,12 +29,8 @@ export default {
         'collapse': '折叠',
         'fullscreen': '全屏',
         'exitFullscreen': '退出全屏',
-        'showSearchBar': '显示搜索栏',
-        'hiddenSearchBar': '隐藏搜索栏',
-        'columnSetting': '列设置',
-        'print': '打印',
+        'validate': '请完成安全验证',
         'refresh': '刷新',
-        'validate': '请完成安全验证'
     },
     'placeholder': {
         "captcha": "请输入验证码",
@@ -220,25 +216,5 @@ export default {
                 }
             }
         }
-    },
-    'route': {
-        'home': '首页',
-        'document': '文档',
-        'element': 'Element-Plus',
-        'pinia': 'Pinia',
-        'vue': 'Vue',
-        'components': '组件',
-        'dialog': '弹窗',
-        'auth': '权限管理',
-        'menu': '菜单管理',
-        'role': '角色管理',
-        'error': '异常页',
-        '401': '401',
-        '404': '404',
-        'system': '系统管理',
-        'systemTool': '系统工具',
-        'gen': '代码生成',
-        'user': '个人中心',
-        'about': '关于',
     }
 }

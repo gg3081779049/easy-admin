@@ -5,7 +5,7 @@ import { removeIf } from '@/utils'
 export const useTabsStore = defineStore('tabs', {
     state: () => ({
         tabs: [],
-        defaultTab: "Home"
+        defaultTab: "home"
     }),
     getters: {
         cachesTabs() {

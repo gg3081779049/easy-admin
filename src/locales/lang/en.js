@@ -29,12 +29,8 @@ export default {
         'collapse': 'Collapse',
         'fullscreen': 'Fullscreen',
         'exitFullscreen': 'Exit Fullscreen',
-        'showSearchBar': 'Show Search Bar',
-        'hiddenSearchBar': 'Hidden Search Bar',
-        'columnSetting': 'Column Setting',
-        'print': 'Print',
-        'refresh': 'Refresh',
-        'validate': 'Please Complete Security Verification'
+        'validate': 'Please Complete Security Verification',
+        'refresh': 'Refresh'
     },
     'placeholder': {
         "captcha": "Please enter the correct captcha",
@@ -220,25 +216,5 @@ export default {
                 }
             }
         }
-    },
-    'route': {
-        'home': 'Home',
-        'document': 'Document',
-        'element': 'Element-Plus',
-        'pinia': 'Pinia',
-        'vue': 'Vue',
-        'components': 'Components',
-        'dialog': 'Dialog',
-        'auth': 'Auth',
-        'menu': 'Menu',
-        'role': 'Role',
-        'error': 'Exception',
-        '401': '401',
-        '404': '404',
-        'system': 'System',
-        'systemTool': 'SystemTool',
-        'gen': 'Generate',
-        'user': 'User',
-        'about': 'About'
     }
 }

@@ -48,8 +48,7 @@ export function tap(func) {
 // dataURL转blob
 export function dataURLToBlob(dataUrl) {
     const type = dataUrl.match(/data:(.+);/)[1]
-    const base64 = dataUrl.split(',')[1]
-    const binStr = atob(base64)
+    const binStr = atob(dataUrl.split(',')[1])
     const u8a = new Uint8Array(binStr.length)
     let p = binStr.length
     while (p--) u8a[p] = binStr.codePointAt(p)

@@ -1,7 +1,7 @@
 <template>
   <el-breadcrumb separator="/">
     <el-breadcrumb-item v-for="{ icon, title } in metaList" :key="title">
-      <svg-icon :icon="icon" v-if="showBreadcrumbIcon && icon" />{{ $t(`route.${title}`) }}
+      <svg-icon :icon="icon" v-if="showBreadcrumbIcon && icon" />{{ title }}
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>

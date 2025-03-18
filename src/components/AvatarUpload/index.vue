@@ -1,7 +1,7 @@
 <template>
     <div class="avatar-upload" :title="$t('clickUploadAvatar')" @click="openDialog">
         <el-avatar class="avatar" :src="img" alt="avatar">
-            <img src="@/assets/images/avatar.png" />
+            <img src="@/assets/images/default-avatar.png" />
         </el-avatar>
         <el-dialog class="avatar-upload-dialog" :title="$t('changeAvatar')" v-model="open" width="400px" append-to-body
             @opened="openDialog" @close="closeDialog">
