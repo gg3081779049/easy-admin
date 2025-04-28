@@ -51,6 +51,7 @@ export default {
 
         .query-form-item,
         .el-input,
+        .el-select,
         .el-date-editor {
             width: 200px;
         }

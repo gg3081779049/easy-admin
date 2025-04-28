@@ -14,7 +14,6 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 
 import '@/assets/styles/index.scss'
 import '@/utils/console'
-import '@/permission'
 import '@/assets/svg'
 
 // 全局方法

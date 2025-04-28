@@ -2,7 +2,7 @@
   <el-dropdown trigger="click" teleported>
     <slot :src="avatar" :username="nickname || name">
       <el-avatar :src="avatar" :size="28" class="user-avatar" alt="avatar">
-        <img src="@/assets/images/default-avatar.png" />
+        <img src="@/assets/img/default-avatar.png" />
       </el-avatar>
     </slot>
     <template #dropdown>

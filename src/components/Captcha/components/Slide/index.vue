@@ -82,7 +82,7 @@ export default {
                 img: '',
                 pieces: '',
                 y: 0,
-                uuid: ''
+                code: ''
             }
         }
     },
@@ -123,7 +123,7 @@ export default {
                 img: '',
                 pieces: '',
                 y: 0,
-                uuid: '',
+                code: '',
             }
         },
         getCaptchaData() {
@@ -135,7 +135,7 @@ export default {
                     this.captchaData.img = res.data.img
                     this.captchaData.pieces = res.data.pieces
                     this.captchaData.y = res.data.y
-                    this.captchaData.uuid = res.data.uuid
+                    this.captchaData.code = res.data.code
                     this.loading = false
                     this.result = undefined
                     this.originX = 0
@@ -183,7 +183,7 @@ export default {
             if (this.result === undefined) {
                 this.checking = true
                 checkCaptcha({
-                    uuid: this.captchaData.uuid,
+                    code: this.captchaData.code,
                     x: this.x,
                     timestamp: this.timestamp
                 }).then(() => {

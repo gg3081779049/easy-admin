@@ -1,15 +1,15 @@
 <template>
-    <el-form :model="modelValue" ref="form-ref">
+    <el-form :model="modelValue" ref="form-ref" class="easy-form">
         <template v-for="item in formItems">
             <el-form-item v-bind="item">
                 <template #default="slotProps">
-                    <slot-renderer v-if="item['default']" :slots="item['default']" :slot-props="slotProps" />
+                    <easy-renderer v-if="item['default']" :items="item['default']" :item-props="slotProps" />
                 </template>
                 <template #label="slotProps">
-                    <slot-renderer v-if="item['label']" :slots="item['label']" :slot-props="slotProps" />
+                    <easy-renderer v-if="item['label']" :items="item['label']" :item-props="slotProps" />
                 </template>
                 <template #error="slotProps">
-                    <slot-renderer v-if="item['error']" :slots="item['error']" :slot-props="slotProps" />
+                    <easy-renderer v-if="item['error']" :items="item['error']" :item-props="slotProps" />
                 </template>
             </el-form-item>
         </template>
@@ -19,11 +19,11 @@
 
 <script>
 import { merge } from 'lodash'
-import SlotRenderer from '@/components/SlotRenderer'
+import EasyRenderer from '@/components/EasyRenderer'
 
 export default {
     name: 'EasyForm',
-    components: { SlotRenderer },
+    components: { EasyRenderer },
     props: {
         modelValue: {
             type: Object,
@@ -60,3 +60,12 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.easy-form {
+    :deep(.el-form-item__label) {
+        font-weight: 600;
+        color: var(--el-text-color-secondary);
+    }
+}
+</style>

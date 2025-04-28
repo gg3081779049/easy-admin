@@ -16,8 +16,8 @@
         </el-form-item>
         <el-form-item label="性别" prop="gender">
             <el-radio-group v-model="form.gender">
-                <el-radio :value="0">男</el-radio>
-                <el-radio :value="1">女</el-radio>
+                <el-radio value="0">男 <svg-icon icon="male" /></el-radio>
+                <el-radio value="1">女 <svg-icon icon="female" /></el-radio>
             </el-radio-group>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
@@ -99,7 +99,9 @@ export default {
     methods: {
         getBaseInfo() {
             getBaseInfo().then(res => {
-                this.form = res.data
+                let { avatar, ...form } = res.data
+                this.form = form
+                this.img = avatar
                 this.oldForm = cloneDeep(this.form)
             })
         },
@@ -115,7 +117,7 @@ export default {
                     if (this.imgChange) {
                         let blob = dataURLToBlob(this.img)
                         let formData = new FormData()
-                        formData.append('avatarfile', blob)
+                        formData.append('avatarfile', blob, this.form.id + '.png')
                         uploadAvatar(formData).then(res => {
                             this.$modal.message.success(this.$t('message.updateSuccess'))
                             this.avatar = this.img

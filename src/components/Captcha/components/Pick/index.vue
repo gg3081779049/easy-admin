@@ -73,7 +73,7 @@ export default {
             points: [],
             captchaData: {
                 img: '',
-                uuid: '',
+                code: '',
                 options: [],
             }
         }
@@ -94,7 +94,7 @@ export default {
             this.points = []
             this.captchaData = {
                 img: '',
-                uuid: '',
+                code: '',
                 options: [],
             }
         },
@@ -105,7 +105,7 @@ export default {
             }).then((res) => {
                 if (res.data) {
                     this.captchaData.img = res.data.img
-                    this.captchaData.uuid = res.data.uuid
+                    this.captchaData.code = res.data.code
                     this.captchaData.options = res.data.options
                     this.loading = false
                     this.result = undefined
@@ -142,7 +142,7 @@ export default {
                 this.checking = true
                 checkCaptcha({
                     info: this.points,
-                    uuid: this.captchaData.uuid
+                    code: this.captchaData.code
                 }).then(() => {
                     this.checking = false
                     this.result = true

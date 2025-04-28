@@ -3,7 +3,7 @@
         <template #header="{ close, titleClass }">
             <span :class="titleClass">{{ $attrs.title }}</span>
             <div class="flex g12">
-                <svg-icon :icon="fullscreen ? 'fullscreen-exit' : 'square'" @click="fullscreen = !fullscreen" />
+                <svg-icon :icon="fullscreen ? 'fullscreen-exit' : 'square'" v-if="showFullscreen" @click="fullscreen = !fullscreen" />
                 <svg-icon icon="wrong" @click="close" />
             </div>
         </template>
@@ -36,6 +36,10 @@ export default {
         maxHeight: {
             type: [String, Number],
             default: '600px'
+        },
+        showFullscreen: {
+            type: Boolean,
+            default: true
         },
         showFooter: {
             type: Boolean,

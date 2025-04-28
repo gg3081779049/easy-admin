@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询菜单列表
 export function getList(params) {
     return request({
-        url: '/auth/menu/list',
+        url: '/system/menu/list',
         method: 'get',
         params
     })
@@ -12,7 +12,7 @@ export function getList(params) {
 // 查询菜单详情
 export function getItem(id) {
     return request({
-        url: `/auth/menu/get/${id}`,
+        url: `/system/menu/get/${id}`,
         method: 'get'
     })
 }
@@ -20,7 +20,7 @@ export function getItem(id) {
 // 新增菜单
 export function addItem(form) {
     return request({
-        url: '/auth/menu/add',
+        url: '/system/menu/add',
         method: 'post',
         data: form
     })
@@ -29,7 +29,7 @@ export function addItem(form) {
 // 删除菜单
 export function deleteItem(ids) {
     return request({
-        url: '/auth/menu/delete',
+        url: '/system/menu/delete',
         method: 'delete',
         data: ids
     })
@@ -38,17 +38,17 @@ export function deleteItem(ids) {
 // 修改菜单
 export function updateItem(form) {
     return request({
-        url: '/auth/menu/update',
+        url: '/system/menu/update',
         method: 'put',
         data: form
     })
 }
 
 // 排序菜单
-export function sortItem(id, targetId, order) {
+export function moveItem(id, targetId, order) {
     return request({
-        url: '/auth/menu/sort',
-        method: 'post',
-        data: { id, targetId, order }
+        url: '/system/menu/move',
+        method: 'get',
+        params: { id, targetId, order }
     })
 }

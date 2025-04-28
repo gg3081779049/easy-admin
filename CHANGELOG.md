@@ -65,4 +65,12 @@ v1.1.5  添加了dict插件
 v1.1.5  消除了::v-deep编译警告
 v1.1.5  消除 __VUE_PROD_HYDRATION_MISMATCH_DETAILS__ 警告信息
 v1.1.5  添加了首加载的控制台输出
+v1.1.5  SlotRenderer 组件改名为 EasyRenderer
+v1.1.5  mock接口type选项名改为method
+v1.1.5  修复了arrayToTree方法的bug
+v1.1.6  删除了水印组件
+v1.1.6  移动了路由守卫的位置
+v1.1.6  添加了面包屑动画
+v1.1.6  优化了EasyTable组件
+v1.1.6  添加了字典管理
 ```

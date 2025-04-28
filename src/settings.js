@@ -77,7 +77,7 @@ export default {
         { is: 'NavbarSearch', icon: 'search', show: true },
         { is: 'Screenfull', icon: 'fullscreen', show: true },
         { is: 'DataScreen', icon: 'screen', show: false },
-        { is: 'LangSelect', icon: 'lang', show: true },
+        { is: 'LangSelect', icon: 'translate', show: true },
         { is: 'ModeSwitch', icon: 'light', show: true },
     ]
 }

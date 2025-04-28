@@ -2,6 +2,12 @@
   <div class="app-card m20">
     <!-- 查询条件 -->
     <query-form v-model="query.form" :show="query.show" @search="getTree">
+      <el-form-item label="菜单类型" prop="hasChild" placeholder="请选择菜单类型">
+        <el-select v-model="query.form.hasChild">
+          <el-option label="目录" :value="true" />
+          <el-option label="菜单" :value="false" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="菜单名称" prop="title">
         <el-input v-model="query.form.title" placeholder="请输入菜单名称" clearable @keyup.enter="getTree" />
       </el-form-item>
@@ -12,18 +18,17 @@
 
     <div class="flex-column g14 p14">
       <div class="flex">
-        <easy-button type="primary" i="plus" :t="$t('common.add')" size="small" plain @click="handleAdd" />
-        <easy-button type="danger" i="delete" :t="$t('common.delete')" size="small" plain
-          @click="handleDelete($refs['table-ref'].selections)" />
-        <easy-button type="info" i="sort" :t="$t(isExpandAll ? 'common.collapse' : 'common.expand')" size="small" plain
-          @click="expandChange" />
-        <table-toolbar v-model:show-search="query.show" v-model:columns="columns" @refresh="getTree" />
+        <easy-button type="primary" i="plus" :t="$t('common.add')" size="small" plain @click="handleAdd()" />
+        <easy-button type="danger" i="delete" :t="$t('common.delete')" size="small" plain @click="handleDelete(table.selections)" />
+        <easy-button type="info" i="sort" :t="$t(table.isExpandAll ? 'common.collapse' : 'common.expand')" size="small"
+          plain @click="expandChange" />
+        <table-toolbar v-model:show-search="query.show" v-model:columns="table.columns" @refresh="getTree" />
       </div>
       <!-- 菜单表格 -->
-      <VueDraggable :modelValue="tree" :animation="150" handle=".handle-drag" target=".el-table .el-table__body tbody"
-        v-if="refreshTable" @end="onEnd">
-        <easy-table ref="table-ref" v-loading="loading" :data="tree" row-key="id" :default-expand-all="isExpandAll"
-          v-model:columns="columns">
+      <VueDraggable :modelValue="table.tree" :animation="150" handle=".handle-drag"
+        target=".el-table .el-table__body tbody" v-if="table.refreshTable" @end="onEnd">
+        <easy-table ref="table-ref" v-loading="table.loading" :data="table.tree" row-key="id"
+          :default-expand-all="table.isExpandAll" v-model:columns="table.columns" @selection-change="handleSelect">
           <el-table-column type="selection" width="40" />
           <el-table-column prop="title" label="菜单名称" width="160" align="left" />
           <el-table-column prop="icon" label="图标" width="100">
@@ -31,7 +36,8 @@
               <svg-icon :icon="scope.row.icon" />
             </template>
           </el-table-column>
-          <el-table-column prop="path" label="路由名称" align="left" />
+          <el-table-column prop="path" label="路由名称" align="center" width="160" />
+          <el-table-column prop="component" label="组件路径" align="left" />
           <el-table-column prop="status" label="状态" width="100">
             <template #default="{ row: { disabled, hidden } }">
               <el-tag :type="disabled ? 'danger' : hidden ? 'info' : 'success'" disable-transitions>
@@ -59,11 +65,11 @@
     <!-- 添加或修改菜单对话框 -->
     <easy-dialog v-model="dialog.open" :title="dialog.title" width="680px" @closed="cancel" @confirm="submitForm">
       <easy-form ref="form" v-model="dialog.form" :rules="dialog.rules" label-width="100px">
-        <el-form-item label="菜单名称" prop="title">
-          <el-input v-model="dialog.form.title" placeholder="请输入菜单名称" />
-        </el-form-item>
-        <el-form-item label="菜单路由" prop="path">
-          <el-input v-model="dialog.form.path" placeholder="请输入菜单路由" />
+        <el-form-item label="菜单类型" prop="hasChild">
+          <el-radio-group v-model="dialog.form.hasChild">
+            <el-radio-button :value="false">菜单</el-radio-button>
+            <el-radio-button :value="true">目录</el-radio-button>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="上级目录" prop="parentId">
           <el-tree-select v-model="dialog.form.parentId" :data="dialog.dirTree" placeholder="选择上级目录"
@@ -76,15 +82,27 @@
             </template>
           </el-tree-select>
         </el-form-item>
+        <el-form-item label="菜单名称" prop="title">
+          <el-input v-model="dialog.form.title" placeholder="请输入菜单名称" />
+        </el-form-item>
+        <el-form-item label="菜单路由" prop="path">
+          <el-input v-model="dialog.form.path" placeholder="请输入菜单路由" />
+        </el-form-item>
+        <el-form-item label="组件路径" prop="component">
+          <el-input v-model="dialog.form.component" placeholder="请输入组件路径" />
+        </el-form-item>
         <el-form-item label="菜单图标" prop="icon">
           <IconSelect v-model="dialog.form.icon" />
         </el-form-item>
         <div style="display:flex;flex-wrap:wrap">
-          <el-form-item label="菜单类型" prop="hasChild" style="width: 50%">
-            <el-radio-group v-model="dialog.form.hasChild" style="margin-left: 10px">
-              <el-radio :value="true">目录</el-radio>
-              <el-radio :value="false">菜单</el-radio>
-            </el-radio-group>
+          <el-form-item label="页面动画" prop="transition" style="width: 50%">
+            <el-select v-model="dialog.form.transition" placeholder="请选择页面动画" style="width:160px">
+              <el-option v-for="(val, key) in $tm('settings.subTitle.pageAnimateType.options')" :key="key" :label="val"
+                :value="key" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="菜单排序" prop="order" style="width: 50%">
+            <el-input-number v-model="dialog.form.order" :min="1" />
           </el-form-item>
           <el-form-item prop="noCache" style="width: 50%">
             <template #label>
@@ -129,7 +147,7 @@
 <i18n locale="zh" src="./locales/zh.json"></i18n>
 
 <script>
-import { getList, getItem, addItem, deleteItem, updateItem, sortItem } from '@/api/modules/auth/menu'
+import { getList, getItem, addItem, deleteItem, updateItem, moveItem } from '@/api/modules/system/menu'
 import { arrayToTree } from '@/utils/tree'
 import { VueDraggable } from 'vue-draggable-plus'
 
@@ -144,27 +162,34 @@ export default {
       query: {
         show: true,
         form: {
-          title: undefined,
-          path: undefined
+          title: '',
+          path: '',
+          hasChild: ''
         }
       },
 
-      // 遮罩层
-      loading: true,
-      // 列设置
-      columns: [],
-      // 是否展开，默认全部折叠
-      isExpandAll: false,
-      // 重新渲染表格状态
-      refreshTable: true,
-      // 菜单树
-      tree: [],
-      // 选中的数据
-      selection: [],
+      // 表格
+      table: {
+        // 遮罩层
+        loading: true,
+        // 列设置
+        columns: [],
+        // 选中的数据
+        selections: [],
+        // 是否展开，默认全部折叠
+        isExpandAll: false,
+        // 重新渲染表格状态
+        refreshTable: true,
+        // 菜单树
+        tree: [],
+      },
 
+      // 弹窗
       dialog: {
         // 是否显示弹出层
         open: false,
+        // 是否弹窗加载中
+        loading: false,
         // 弹出层标题
         title: "",
         // 目录树
@@ -175,6 +200,9 @@ export default {
           parentId: 0,
           hasChild: false,
           path: '',
+          component: '',
+          transition: '',
+          order: 0,
           query: null,
           icon: '',
           title: '',
@@ -205,14 +233,14 @@ export default {
   methods: {
     /** 查询菜单树 */
     async getTree() {
-      this.loading = true
+      this.table.loading = true
       const res = await getList(this.query.form)
-      this.loading = false
-      // 搜索条件有值时，则 this.tree = res.data
+      this.table.loading = false
+      // 搜索条件有值时，则 this.table.tree = res.data
       if (this.hasParams) {
-        this.tree = res.data
+        this.table.tree = res.data
       } else {
-        this.tree = arrayToTree(res.data)
+        this.table.tree = arrayToTree(res.data)
       }
     },
     /** 拖拽按钮操作 */
@@ -220,7 +248,7 @@ export default {
       if (oldIndex === newIndex) return
       let oldNodeIndex, oldParentNode, oldNode
       let newNodeIndex, newParentNode
-      this.traverse(this.tree, (node, index, parentNode) => {
+      this.traverse(this.table.tree, (node, index, parentNode) => {
         if (index === oldIndex) {
           oldNode = node
           oldParentNode = parentNode
@@ -241,7 +269,7 @@ export default {
         this.getChildren(newParentNode).splice(index, 0, oldNode)
         let target = oldParentNode.id === newParentNode.id ? '同层级' : newParentNode.title ? `【${newParentNode.title}】子目录中` : '根目录中'
         this.$modal.confirm.warning(`确定将【${oldNode.title}】移动到${target}的第 ${index + 1} 个位置吗？`).then(() => {
-          return sortItem(oldNode.id, newParentNode.id, index + 1)
+          return moveItem(oldNode.id, newParentNode.id, index + 1)
         }).catch(() => {
           this.getTree()
         })
@@ -264,32 +292,40 @@ export default {
     },
     // 展开/折叠操作
     expandChange() {
-      this.refreshTable = false
-      this.isExpandAll = !this.isExpandAll
+      this.table.refreshTable = false
+      this.table.isExpandAll = !this.table.isExpandAll
       this.$nextTick(() => {
-        this.refreshTable = true
+        this.table.refreshTable = true
       })
+    },
+    handleSelect(selections) {
+      this.table.selections = selections
     },
     // 新增按钮操作
     async handleAdd(row) {
-      if ('children' in row) {
+      if (!row || 'children' in row) {
+        this.dialog.loading = true
+        this.dialog.title = "添加菜单"
+        this.dialog.open = true
+        this.$refs['form']?.resetFields()
         const res = await getList()
         this.dialog.dirTree = [{ id: 0, title: '根目录', hasChild: true, children: arrayToTree(res.data) }]
         this.dialog.form.parentId = row ? row.id : 0
-        this.dialog.title = "添加菜单"
-        this.dialog.open = true
+        this.dialog.loading = false
       } else {
         this.$modal.message.error('菜单不允许创建子菜单')
       }
     },
     /** 修改按钮操作 */
     async handleUpdate(row) {
+      this.dialog.loading = true
+      this.dialog.title = "修改菜单"
+      this.dialog.open = true
       const res = await getList()
       this.dialog.dirTree = [{ id: 0, title: '根目录', hasChild: true, children: arrayToTree(res.data) }]
       const { data } = await getItem(row.id)
       this.dialog.form = data
-      this.dialog.title = "修改菜单"
-      this.dialog.open = true
+      this.dialog.loading = false
     },
     /** 删除按钮操作 */
     handleDelete(rows) {

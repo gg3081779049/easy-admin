@@ -1,5 +1,5 @@
 <template>
-    <el-button-group class="right-toolbar">
+    <el-button-group class="table-toolbar">
         <!-- 搜索 -->
         <el-tooltip :content="$t(showSearch ? 'hiddenSearchBar' : 'showSearchBar')" placement="top" effect="light"
             :hide-after="0" v-if="showSearch !== undefined">
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.right-toolbar {
+.table-toolbar {
     margin-left: auto;
 
     .el-button {

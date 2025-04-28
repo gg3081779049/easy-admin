@@ -140,7 +140,7 @@ export default {
 
   &::before {
     content: '';
-    background-image: url("@/assets/images/login-background.jpg");
+    background-image: url("@/assets/img/login-background.jpg");
     background-size: cover;
     filter: hue-rotate(calc((var(--el-color-primary-h) - 214) * 1deg));
     position: fixed;

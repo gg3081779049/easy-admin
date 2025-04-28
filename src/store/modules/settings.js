@@ -3,17 +3,14 @@ import { useAppStore } from '@/store/modules/app'
 import { ref, toRefs, watch, watchEffect } from 'vue'
 import { colord } from 'colord'
 import { mixColor, fade, invert } from '@/utils/color'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, mapValues } from 'lodash'
 import { local } from '@/plugins/modules/cache'
 import defaultSettings from '@/settings'
 import i18n from '@/locales'
 
 export const useSettingsStore = defineStore('settings', () => {
     const storageSettings = local.getItem('system-settings')
-    const settings = ref(cloneDeep(Object.keys(defaultSettings).reduce((acc, key) => {
-        acc[key] = storageSettings?.[key] ?? defaultSettings[key]
-        return acc
-    }, {})))
+    const settings = ref(cloneDeep(mapValues(defaultSettings, (val, key) => storageSettings?.[key] ?? val)))
 
     // 监听 language
     watch(() => settings.value.language, (language) => {

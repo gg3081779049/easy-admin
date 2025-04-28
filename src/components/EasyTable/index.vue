@@ -3,14 +3,13 @@
         <template v-for="(column, index) in columns" :key="index">
             <el-table-column v-bind="{ ...defaultTableColumn, ...column }" v-if="!column.hidden">
                 <template #default="slotProps">
-                    <slot-renderer v-if="column['default']" :slots="column['default']" :slot-props="slotProps" />
+                    <easy-renderer v-if="column['default']" :items="column['default']" :item-props="slotProps" />
                 </template>
                 <template #header="slotProps">
-                    <slot-renderer v-if="column['header']" :slots="column['header']" :slot-props="slotProps" />
+                    <easy-renderer v-if="column['header']" :items="column['header']" :item-props="slotProps" />
                 </template>
                 <template #filter-icon="slotProps">
-                    <slot-renderer v-if="column['filter-icon']" :slots="column['filter-icon']"
-                        :slot-props="slotProps" />
+                    <easy-renderer v-if="column['filter-icon']" :items="column['filter-icon']" :item-props="slotProps" />
                 </template>
             </el-table-column>
         </template>
@@ -24,15 +23,14 @@
 </template>
 
 <script>
-import { removeIf } from '@/utils'
 import { printTable } from "@/utils/print"
 import { omit } from 'lodash'
 
-import SlotRenderer from '@/components/SlotRenderer'
+import EasyRenderer from '@/components/EasyRenderer'
 
 export default {
     name: 'EasyTable',
-    components: { SlotRenderer },
+    components: { EasyRenderer },
     props: {
         columns: {
             type: Array,
@@ -41,6 +39,7 @@ export default {
     },
     data() {
         return {
+            columnsJson: JSON.stringify(this.columns),
             selections: [],
             defaultTableColumn: {
                 'align': 'center',
@@ -50,22 +49,14 @@ export default {
     },
     created() {
         let slots = this.$slots.default?.() || []
-        if (slots[0]?.type?.description === 'v-fgt') {
-            slots = slots[0].children
-        }
-        // 移除已经存在的列
-        removeIf(this.columns, ({ __v_isVNode }) => __v_isVNode)
+        if (slots[0]?.type?.description === 'v-fgt') slots = slots[0].children
         // 获取插槽里的列
-        let slotsMap = slots.map(({ props, children, __v_isVNode }) => {
-            return { ...props, ...omit(children, ['_']), __v_isVNode }
-        })
+        let slotsMap = slots.map(({ props, children }) => ({ ...props, ...omit(children, ['_']) }))
         // 添加插槽里的列
         this.columns.unshift(...slotsMap)
     },
-    computed: {
-        single() {
-            return this.selections.length === 1
-        }
+    unmounted() {
+        this.columns.splice(0, this.columns.length, ...JSON.parse(this.columnsJson))
     },
     methods: {
         handleSelect(selections) {

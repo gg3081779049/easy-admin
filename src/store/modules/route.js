@@ -20,13 +20,13 @@ export const useRouteStore = defineStore('route', {
 })
 
 function convertArrayToTree(list) {
-    return arrayToTree(list, ({ icon, title, noCache, hidden, disabled, ...node }, parentNodes) => {
+    return arrayToTree(list, ({ icon, title, noCache, hidden, disabled, transition, ...node }, parentNodes) => {
         let nodes = parentNodes.concat(node)
         let path = isExternal(node.path) ? node.path : nodes.map(node => node.path).join('/')
         return {
             ...node,
             path,
-            meta: { icon, title, noCache, hidden, disabled }
+            meta: { icon, title, noCache, hidden, disabled, transition }
         }
     })
 }

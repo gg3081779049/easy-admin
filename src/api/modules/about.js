@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getUpdateLog() {
+export function getChangeLog() {
     return request({
-        url: '/about/getUpdateLog',
+        url: '/about/getChangeLog',
         methods: 'get'
     })
 }
