@@ -2,8 +2,8 @@ const { menuList } = require(`${process.cwd()}/mock/data`)
 const { getNextUniqueMin, pick } = require(`${process.cwd()}/mock/utils`)
 
 module.exports = [{
-    url: '/mock/auth/menu/list',
-    type: 'get',
+    url: '/mock/system/menu/list',
+    method: 'get',
     response(req) {
         let params = req.query
         let data = menuList.filter(item => {
@@ -14,12 +14,15 @@ module.exports = [{
         return {
             code: 200,
             msg: '操作成功',
-            data
+            data: {
+                list: data,
+                total: data.length
+            }
         }
     }
 }, {
-    url: '/mock/auth/menu/get/:id',
-    type: 'get',
+    url: '/mock/system/menu/get/:id',
+    method: 'get',
     response(req) {
         let n = parseInt(req.params.id)
         return {
@@ -29,8 +32,8 @@ module.exports = [{
         }
     }
 }, {
-    url: '/mock/auth/menu/add',
-    type: 'post',
+    url: '/mock/system/menu/add',
+    method: 'post',
     response(req) {
         let minId = getNextUniqueMin(menuList.map(item => item.id))
         let form = { ...req.body, id: minId, createTime: new Date().getTime() }
@@ -43,8 +46,8 @@ module.exports = [{
         }
     }
 }, {
-    url: '/mock/auth/menu/delete',
-    type: 'delete',
+    url: '/mock/system/menu/delete',
+    method: 'delete',
     response(req) {
         let parentIds = []
         menuList.forEach((item, index) => {
@@ -66,8 +69,8 @@ module.exports = [{
         }
     }
 }, {
-    url: '/mock/auth/menu/update',
-    type: 'put',
+    url: '/mock/system/menu/update',
+    method: 'put',
     response(req) {
         for (let i = 0; i < menuList.length; i++) {
             if (menuList[i].id === req.body.id) {
@@ -81,10 +84,10 @@ module.exports = [{
         }
     }
 }, {
-    url: '/mock/auth/menu/sort',
-    type: 'post',
+    url: '/mock/system/menu/move',
+    method: 'get',
     response(req) {
-        const { id, targetId, order } = req.body
+        const { id, targetId, order } = req.params
         // 获取 id节点 的所有后代节点的id
         function getDescIds(menuList, parentId) {
             let descIds = []

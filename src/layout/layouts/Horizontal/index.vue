@@ -6,7 +6,7 @@
                 <Menu :data="treeRoutes" mode="horizontal">
                     <template #default="{ meta }">
                         <svg-icon class="menu-icon" :icon="meta.icon" />
-                        <span>{{ meta.title }}</span>
+                        <span class="text-ellipsis">{{ meta.title }}</span>
                     </template>
                 </Menu>
             </Navbar>
@@ -20,7 +20,7 @@
                         <Menu :data="treeRoutes" mode="horizontal">
                             <template #default="{ meta }">
                                 <svg-icon class="menu-icon" :icon="meta.icon" />
-                                <span>{{ meta.title }}</span>
+                                <span class="text-ellipsis">{{ meta.title }}</span>
                             </template>
                         </Menu>
                     </Navbar>

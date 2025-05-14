@@ -3,7 +3,7 @@ const { pick, omit, tokenManager } = require(`${process.cwd()}/mock/utils`)
 
 module.exports = [{
     url: '/mock/getBaseInfo',
-    type: 'get',
+    method: 'get',
     response(req) {
         let data = tokenManager.parseToken(req.headers.authorization.replace('Bearer ', ''))
         let user = usersList.find(item => item.username === data.username && item.password === data.password)
@@ -15,7 +15,7 @@ module.exports = [{
     }
 }, {
     url: '/mock/updateBaseInfo',
-    type: 'post',
+    method: 'post',
     response(req) {
         let form = req.body
         let data = tokenManager.parseToken(req.headers.authorization.replace('Bearer ', ''))
@@ -28,7 +28,7 @@ module.exports = [{
     }
 }, {
     url: '/mock/uploadAvatar',
-    type: 'post',
+    method: 'post',
     response(req) {
         let data = tokenManager.parseToken(req.headers.authorization.replace('Bearer ', ''))
         return {
@@ -38,7 +38,7 @@ module.exports = [{
     }
 }, {
     url: '/mock/updatePwd',
-    type: 'post',
+    method: 'post',
     response(req) {
         let { oldPassword, newPassword, confirmPassword } = req.body
         let data = tokenManager.parseToken(req.headers.authorization.replace('Bearer ', ''))
@@ -72,7 +72,7 @@ module.exports = [{
     }
 }, {
     url: '/mock/getLoginLogs',
-    type: 'get',
+    method: 'get',
     response(req) {
         let { pageIndex, pageSize, ...params } = req.query
         let data = loginList.filter(item => {

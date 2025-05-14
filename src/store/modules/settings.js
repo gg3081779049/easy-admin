@@ -3,17 +3,14 @@ import { useAppStore } from '@/store/modules/app'
 import { ref, toRefs, watch, watchEffect } from 'vue'
 import { colord } from 'colord'
 import { mixColor, fade, invert } from '@/utils/color'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, mapValues } from 'lodash'
 import { local } from '@/plugins/modules/cache'
 import defaultSettings from '@/settings'
 import i18n from '@/locales'
 
 export const useSettingsStore = defineStore('settings', () => {
     const storageSettings = local.getItem('system-settings')
-    const settings = ref(cloneDeep(Object.keys(defaultSettings).reduce((acc, key) => {
-        acc[key] = storageSettings?.[key] ?? defaultSettings[key]
-        return acc
-    }, {})))
+    const settings = ref(cloneDeep(mapValues(defaultSettings, (val, key) => storageSettings?.[key] ?? val)))
 
     // 监听 language
     watch(() => settings.value.language, (language) => {
@@ -22,9 +19,10 @@ export const useSettingsStore = defineStore('settings', () => {
 
     // 监听 mode
     let appStore = useAppStore()
+    switchMode(settings.value.mode, false)
     watch(() => settings.value.mode, (mode) => {
         switchMode(mode, !appStore.showSettings)
-    }, { immediate: true })
+    })
 
     // 监听 grey
     watch(() => settings.value.grey, (grey) => {
@@ -33,8 +31,9 @@ export const useSettingsStore = defineStore('settings', () => {
 
     // 设置 css 变量
     watchEffect(() => {
-        let height = !appStore.tabFullscreen * settings.value.headerHeight + settings.value.showTabs * settings.value.tabsHeight
-        let mainHeight = `calc(100vh - ${height}px)`
+        let headerHeight = !appStore.tabFullscreen * settings.value.headerHeight
+        let tabsHeight = settings.value.showTabs * settings.value.tabsHeight
+        let mainHeight = `calc(100vh - ${headerHeight + tabsHeight}px)`
         appendStyle('system-vars', createStyleStr(settings.value.theme, mainHeight))
     })
 
@@ -81,9 +80,11 @@ function createStyleStr(theme, mainHeight) {
             --el-color-primary-l: ${primaryHsl.l};
         }
         html.light {
+            --light: 1;
             ${lightStyles.join(';')}
         }
         html.dark {
+            --light: 0;
             ${darkStyles.join(';')}
         }
     `

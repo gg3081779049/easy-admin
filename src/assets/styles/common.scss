@@ -1,0 +1,33 @@
+.abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@each $value in 0, 10, 12, 14, 16, 18, 20 {
+  .m#{$value} {
+    margin: #{$value}px;
+  }
+}
+
+@each $value in 0, 10, 12, 14, 16, 18, 20 {
+  .p#{$value} {
+    padding: #{$value}px;
+  }
+}
+
+@each $value in 0, 10, 12, 14, 16, 18, 20 {
+  .g#{$value} {
+    gap: #{$value}px;
+  }
+}

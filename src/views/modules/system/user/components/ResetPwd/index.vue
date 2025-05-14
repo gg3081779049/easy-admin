@@ -10,8 +10,8 @@
             <el-input v-model="form.confirmPassword" placeholder="请确认新密码" type="password" show-password/>
         </el-form-item>
         <el-form-item>
-            <easy-button type="primary" :t="$t('修改')" @click="submitForm" />
-            <easy-button type="danger" :t="$t('忘记密码')" />
+            <easy-button type="primary" t="修改" @click="submitForm" />
+            <easy-button type="danger" t="忘记密码" />
         </el-form-item>
     </el-form>
 </template>

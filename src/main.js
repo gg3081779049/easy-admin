@@ -14,7 +14,6 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 
 import '@/assets/styles/index.scss'
 import '@/utils/console'
-import '@/permission'
 import '@/assets/svg'
 
 // 全局方法
@@ -27,7 +26,9 @@ import QueryForm from '@/components/QueryForm'
 import TableToolbar from '@/components/TableToolbar'
 import EasyForm from '@/components/EasyForm'
 import EasyTable from '@/components/EasyTable'
+import EasyTablePro from '@/components/EasyTablePro'
 import EasyDialog from '@/components/EasyDialog'
+import EasyDrawer from '@/components/EasyDrawer'
 import EasyColorPicker from '@/components/EasyColorPicker'
 import EasyButton from '@/components/EasyButton'
 import Pagination from '@/components/Pagination'
@@ -45,7 +46,9 @@ app.component(QueryForm.name || 'QueryForm', QueryForm)
 app.component(TableToolbar.name || 'TableToolbar', TableToolbar)
 app.component(EasyForm.name || 'EasyForm', EasyForm)
 app.component(EasyTable.name || 'EasyTable', EasyTable)
+app.component(EasyTablePro.name || 'EasyTablePro', EasyTablePro)
 app.component(EasyDialog.name || 'EasyDialog', EasyDialog)
+app.component(EasyDrawer.name || 'EasyDrawer', EasyDrawer)
 app.component(EasyColorPicker.name || 'EasyColorPicker', EasyColorPicker)
 app.component(EasyButton.name || 'EasyButton', EasyButton)
 app.component(Pagination.name || 'Pagination', Pagination)

@@ -50,6 +50,7 @@ export default {
             top: 0,
             visible: false,
             selectedTab: {},
+            draggableInstance: null,
         }
     },
     computed: {
@@ -85,9 +86,10 @@ export default {
         this.addTab(this.$route)
         this.draggableInstance = useDraggable(this.$refs.scrollPane.$el.querySelector(".el-scrollbar__view"), this.tabs, {
             animation: 150,
+            disabled: !this.draggable,
             ghostClass: "ghost"
         })
-        this.draggableInstance[this.draggable ? 'start' : 'pause']()
+        this.draggableInstance.start()
         document.body.addEventListener("click", this.closeMenu)
     },
     unmounted() {
@@ -191,7 +193,7 @@ export default {
             this.moveToCurrentTab()
         },
         draggable(val) {
-            this.draggableInstance?.[val ? 'start' : 'pause']()
+            this.draggableInstance?.option?.('disabled', !val)
         }
     }
 }
@@ -214,8 +216,9 @@ export default {
         .contextmenu {
             padding: 5px 0;
             border-radius: 4px;
+            border: 1px solid var(--el-border-color-light);
             background: var(--el-bg-color-overlay);
-            box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: var(--el-box-shadow-light);
             font-size: 12px;
             font-weight: 400;
             position: absolute;

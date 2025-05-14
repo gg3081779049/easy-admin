@@ -1,54 +1,54 @@
 import request from '@/utils/request'
 
 // 查询菜单列表
-export function getList(params) {
+export function list(params) {
     return request({
-        url: '/auth/menu/list',
+        url: '/system/menu/list',
         method: 'get',
         params
     })
 }
 
 // 查询菜单详情
-export function getItem(id) {
+export function get(id) {
     return request({
-        url: `/auth/menu/get/${id}`,
+        url: `/system/menu/get/${id}`,
         method: 'get'
     })
 }
 
 // 新增菜单
-export function addItem(form) {
+export function add(form) {
     return request({
-        url: '/auth/menu/add',
+        url: '/system/menu/add',
         method: 'post',
         data: form
     })
 }
 
 // 删除菜单
-export function deleteItem(ids) {
+export function del(ids) {
     return request({
-        url: '/auth/menu/delete',
+        url: '/system/menu/delete',
         method: 'delete',
         data: ids
     })
 }
 
 // 修改菜单
-export function updateItem(form) {
+export function update(form) {
     return request({
-        url: '/auth/menu/update',
+        url: '/system/menu/update',
         method: 'put',
         data: form
     })
 }
 
 // 排序菜单
-export function sortItem(id, targetId, order) {
+export function move(id, targetId, order) {
     return request({
-        url: '/auth/menu/sort',
-        method: 'post',
-        data: { id, targetId, order }
+        url: '/system/menu/move',
+        method: 'get',
+        params: { id, targetId, order }
     })
 }

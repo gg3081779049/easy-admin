@@ -1,23 +1,21 @@
 <template>
-    <el-dialog class="easy-dialog" :show-close="false" :fullscreen="fullscreen" append-to-body>
+    <el-dialog class="easy-dialog" :show-close="false" :fullscreen="fullscreen" align-center append-to-body>
         <template #header="{ close, titleClass }">
             <span :class="titleClass">{{ $attrs.title }}</span>
             <div class="flex g12">
-                <svg-icon :icon="fullscreen ? 'fullscreen-exit' : 'square'" @click="fullscreen = !fullscreen" />
+                <svg-icon :icon="fullscreen ? 'fullscreen-exit' : 'square'" v-if="showFullscreen" @click="fullscreen = !fullscreen" />
                 <svg-icon icon="wrong" @click="close" />
             </div>
         </template>
-        <div v-loading="loading" element-loading-background="var(--el-dialog-bg-color)">
-            <el-scrollbar v-bind="scrollbarProps" :style="{ minHeight }">
-                <div class="p14">
-                    <slot />
-                </div>
-            </el-scrollbar>
-            <div class="dialog-footer" v-if="showFooter">
-                <easy-button :t="$t('common.cancel')" auto-insert-space @click="close" />
-                <easy-button type="primary" :t="$t('common.confirm')" auto-insert-space @click="confirm" />
+        <el-scrollbar v-bind="scrollbarProps" :style="{ minHeight }">
+            <div class="p18" v-loading="loading" element-loading-background="var(--el-dialog-bg-color)">
+                <slot />
             </div>
-        </div>
+        </el-scrollbar>
+        <template #footer v-if="showFooter && !loading">
+            <easy-button t="common.cancel" auto-insert-space @click="close" />
+            <easy-button type="primary" t="common.confirm" auto-insert-space @click="confirm" />
+        </template>
     </el-dialog>
 </template>
 
@@ -37,6 +35,10 @@ export default {
             type: [String, Number],
             default: '600px'
         },
+        showFullscreen: {
+            type: Boolean,
+            default: true
+        },
         showFooter: {
             type: Boolean,
             default: true
@@ -50,8 +52,10 @@ export default {
     computed: {
         scrollbarProps() {
             if (this.fullscreen) {
+                let headerHeight = 48.8
+                let footerHeight = 60
                 return {
-                    height: `calc(100vh - ${this.showFooter ? 102 : 42}px)`
+                    height: `calc(100vh - ${headerHeight + this.showFooter * footerHeight}px)`
                 }
             } else {
                 return {
@@ -77,8 +81,9 @@ export default {
         padding: 0;
 
         .el-dialog__header {
-            padding: 14px;
-            padding-bottom: 4px;
+            padding: 12px;
+            background: rgba(128, 128, 128, 0.06);
+            border-bottom: 1px solid var(--el-border-color-lighter);
             display: flex;
             justify-content: space-between;
 
@@ -97,9 +102,7 @@ export default {
             }
         }
 
-        .dialog-footer {
-            display: flex;
-            justify-content: end;
+        .el-dialog__footer {
             padding: 14px;
         }
     }

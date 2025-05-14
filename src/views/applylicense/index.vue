@@ -15,7 +15,7 @@ export default {
 .applylicense {
   width: 100vw;
   height: 100vh;
-  background-image: url("@/assets/images/login-background.jpg");
+  background-image: url("@/assets/img/login-background.jpg");
   background-size: cover;
   position: relative;
 }

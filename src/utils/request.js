@@ -112,9 +112,9 @@ service.interceptors.response.use(res => {
     }
 }, error => {
     console.error('err:' + error)
-    console.log('error.response.data.status:' + error.response.data.status)
+    console.log('error.response.data.status:' + error.response?.data?.status)
     let { message } = error
-    if (error.response.data.status === 1000) {
+    if (error.response?.data?.status === 1000) {
         router.push({ path: '/applylicense' })
     }
     if (message == "Network Error") {

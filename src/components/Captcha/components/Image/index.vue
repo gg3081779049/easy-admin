@@ -32,7 +32,7 @@ export default {
             code: '',
             captchaData: {
                 img: '',
-                uuid: '',
+                code: '',
             }
         }
     },
@@ -45,7 +45,7 @@ export default {
                 this.checking = true
                 checkCaptcha({
                     code: this.code,
-                    uuid: this.captchaData.uuid
+                    code: this.captchaData.code
                 }).then(() => {
                     this.checking = false
                     this.result = true
@@ -68,7 +68,7 @@ export default {
             }).then((res) => {
                 if (res.data) {
                     this.captchaData.img = res.data.img
-                    this.captchaData.uuid = res.data.uuid
+                    this.captchaData.code = res.data.code
                     this.loading = false
                     this.result = undefined
                     this.code = ''

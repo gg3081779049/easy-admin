@@ -17,7 +17,7 @@
     "axios": "^1.6.8",
     "colord": "2.9.3",
     "core-js": "^3.8.3",
-    "element-plus": "^2.7.2",
+    "element-plus": "^2.9.2",
     "file-saver": "^2.0.5",
     "fuse.js": "7.0.0",
     "highlight.js": "^11.11.1",
@@ -33,6 +33,7 @@
     "vue-cropper": "^1.1.4",
     "vue-draggable-plus": "^0.4.1",
     "vue-i18n": "^10.0.0-beta.1",
+    "vue-json-viewer": "^3.0.4",
     "vue-meta": "^3.0.0-alpha.8",
     "vue-router": "^4.3.2"
   },

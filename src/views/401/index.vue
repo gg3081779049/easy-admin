@@ -5,7 +5,7 @@
       <svg-icon icon="401" style="width: 800px;height: 600px" />
     </div>
     <div class="page-401-content">
-      <easy-button type="primary" :t="$t('common.backHome')" @click="back" />
+      <easy-button type="primary" t="common.backHome" @click="back" />
     </div>
   </div>
 </template>

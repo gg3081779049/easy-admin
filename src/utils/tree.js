@@ -10,37 +10,51 @@ export function arrayToTree(array, func, config) {
         hasChildKey = 'hasChild'
     } = config ?? {}
 
+    // 1 创建所有节点的映射
     for (const item of array) {
-        let newItem = { ...item }
-        if (newItem[hasChildKey]) newItem[childrenKey] = map[newItem[idKey]]?.[childrenKey] || []
-        map[newItem[idKey]] = newItem
-        if (newItem[parentIdKey]) {
-            let parentItem = map[newItem[parentIdKey]]
-            if (parentItem) {
-                parentItem[childrenKey] ||= []
-                parentItem[childrenKey].push(newItem)
-                parentItem[childrenKey].sort((a, b) => a[orderKey] - b[orderKey])
-            } else {
-                parentItem = { [childrenKey]: [newItem] }
-            }
+        map[item[idKey]] = { ...item }
+    }
+
+    // 2 构建树结构
+    for (const id in map) {
+        const node = map[id]
+        
+        // 2.1 处理父节点
+        if (node[parentIdKey] && map[node[parentIdKey]]) {
+            const parent = map[node[parentIdKey]]
+            parent[childrenKey] ||= []
+            parent[childrenKey].push(node)
         } else {
-            tree.push(newItem)
+            tree.push(node)
         }
     }
 
-    tree = tree.sort((a, b) => a[orderKey] - b[orderKey])
-
-    if (func instanceof Function) {
-        function buildTree(node, parentNodes = []) {
-            let _node = { ...node }
-            let newNode = func(_node, [...parentNodes])
-            if (node[childrenKey] instanceof Array) {
-                newNode[childrenKey] = node[childrenKey].map(child => buildTree(child, [...parentNodes, node]))
-            }
-            return newNode
+    // 3 排序和转换
+    function processNode(node, parentNodes = []) {
+        // 3.1 排序子节点
+        if (node[childrenKey]) {
+            node[childrenKey].sort((a, b) => (a[orderKey] || 0) - (b[orderKey] || 0))
+            // 递归处理子节点
+            node[childrenKey] = node[childrenKey].map(child => 
+                processNode(child, [...parentNodes, node])
+            )
         }
-        tree = tree.map(node => buildTree(node, []))
+        
+        // 3.2 处理hasChildKey
+        if (hasChildKey && node[hasChildKey] && !node[childrenKey]) {
+            node[childrenKey] = []
+        }
+        
+        // 3.3 应用转换函数
+        if (typeof func === 'function') {
+            return func(node, parentNodes)
+        }
+        
+        return node
     }
+
+    tree = tree.map(node => processNode(node, []))
+    tree.sort((a, b) => (a[orderKey] || 0) - (b[orderKey] || 0))
 
     return tree
 }
@@ -61,11 +75,11 @@ export function treeToArray(tree, func) {
 }
 
 // 遍历树
-export function handleTree(tree, func) {
+export function traverseTree(tree, func) {
     tree.forEach(node => {
         func(node)
         if (node.children) {
-            handleTree(node.children, func)
+            traverseTree(node.children, func)
         }
     })
 }

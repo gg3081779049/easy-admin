@@ -97,6 +97,7 @@ export default {
     --el-border-color: var(--el-color-info-light-3);
 
     :deep(input) {
+      width: 11px;
       border-radius: 0;
       border: 0;
       padding-left: 0;

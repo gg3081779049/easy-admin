@@ -1,8 +1,8 @@
 module.exports = [{
-    url: '/mock/getDict',
-    type: 'post',
+    url: '/mock/system/dict/getDict',
+    method: 'get',
     response(req) {
-        const { keys, locales } = req.body
+        const { keys, locales } = req.query
         return {
             code: 200,
             data: locales.reduce((acc, locale) => {

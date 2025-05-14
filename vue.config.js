@@ -3,7 +3,7 @@ const path = require('path')
 
 module.exports = defineConfig({
     devServer: {
-        port: 8080,
+        port: 8088,
         open: false,
         setupMiddlewares: require('./mock'),
         client: {

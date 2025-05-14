@@ -10,7 +10,7 @@ export default {
                 el.parentNode?.removeChild(el)
             }
         } else {
-            throw new Error('v-hasPermi value must be Array, and not empty!')
+            throw new Error('v-auth value must be Array, and not empty!')
         }
     }
 }

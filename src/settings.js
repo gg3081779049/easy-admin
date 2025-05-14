@@ -58,7 +58,7 @@ export default {
     sidebarStyle: 'card',
 
     // 深色侧边栏
-    darkSidebar: false,
+    darkSidebar: true,
 
     // 是否只保持一个子菜单展开
     uniqueOpened: true,
@@ -76,8 +76,8 @@ export default {
     navToolbar: [
         { is: 'NavbarSearch', icon: 'search', show: true },
         { is: 'Screenfull', icon: 'fullscreen', show: true },
-        { is: 'DataScreen', icon: 'screen', show: false },
-        { is: 'LangSelect', icon: 'lang', show: true },
+        { is: 'DataScreen', icon: 'screen', show: true },
+        { is: 'LangSelect', icon: 'translate', show: true },
         { is: 'ModeSwitch', icon: 'light', show: true },
     ]
 }

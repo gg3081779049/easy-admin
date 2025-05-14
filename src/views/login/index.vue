@@ -29,8 +29,8 @@
           {{ $t('register') }}
         </router-link>
       </div>
-      <easy-button :t="$t(loading ? 'logging' : 'login')" style="width:100%" type="primary" :loading="loading"
-        auto-insert-space @click.native.prevent="validate" />
+      <easy-button style="width:100%" type="primary" :t="loading ? 'logging' : 'login'" :loading="loading" auto-insert-space 
+        @click.native.prevent="validate" />
     </el-form>
     <div class="login-tools">
       <LangSelect />
@@ -140,7 +140,7 @@ export default {
 
   &::before {
     content: '';
-    background-image: url("@/assets/images/login-background.jpg");
+    background-image: url("@/assets/img/login-background.jpg");
     background-size: cover;
     filter: hue-rotate(calc((var(--el-color-primary-h) - 214) * 1deg));
     position: fixed;

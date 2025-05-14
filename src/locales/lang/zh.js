@@ -1,4 +1,4 @@
-import zh from 'element-plus/es/locale/lang/zh-cn'
+import zh from 'element-plus/dist/locale/zh-cn.mjs'
 
 export default {
     ...zh,

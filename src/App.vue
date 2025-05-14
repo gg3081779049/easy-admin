@@ -2,7 +2,7 @@
   <el-config-provider :locale="$tm('')">
     <metainfo>
       <template #title>
-        {{ title }}
+        {{ metaTitle }}
       </template>
     </metainfo>
     <router-view />
@@ -18,12 +18,12 @@ import { useMeta } from 'vue-meta'
 export default {
   name: 'App',
   computed: {
+    ...mapState(useAppStore, ['title']),
     ...mapState(useSettingsStore, ['dynamicTitle']),
-    title() {
-      let title = useAppStore().title
+    metaTitle() {
       let content = this.$tm('system').title || process.env.VUE_APP_TITLE
-      if (this.dynamicTitle && title) {
-        return `${title} - ${content}`
+      if (this.dynamicTitle && this.title) {
+        return `${this.title} - ${content}`
       } else {
         return content
       }
@@ -34,10 +34,3 @@ export default {
   }
 }
 </script>
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-}
-</style>

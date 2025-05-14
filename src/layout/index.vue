@@ -1,7 +1,7 @@
 <template>
-  <WaterMark :show="watermark">
+  <el-watermark :font="watermarkStyle" :content="watermark ? $t('system.watermark') : null" :zIndex="9999">
     <component :is="component" />
-  </WaterMark>
+  </el-watermark>
   <Settings v-model="showSettings" />
 </template>
 
@@ -11,17 +11,21 @@ import { useSettingsStore } from '@/store/modules/settings'
 import { mapState, mapWritableState } from 'pinia'
 import { dashToCamel } from '@/utils'
 
-import WaterMark from "@/components/WaterMark"
 import Settings from "@/layout/components/Settings"
 
 export default {
   name: "Layout",
-  components: { WaterMark, Settings },
+  components: { Settings },
   computed: {
-    ...mapState(useSettingsStore, ["layout", "watermark"]),
+    ...mapState(useSettingsStore, ["layout", "mode", "watermark"]),
     ...mapWritableState(useAppStore, ["showSettings"]),
     component() {
       return require(`@/layout/layouts/${dashToCamel(this.layout)}`).default
+    },
+    watermarkStyle() {
+      return {
+        color: this.mode === 'light' ? '#00000026' : '#ffffff26'
+      }
     }
   }
 }

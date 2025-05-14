@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, createWebHashHistory, createMemoryHistory } from 'vue-router'
 import Layout from '@/layout'
+import { beforeEachGuard, afterEachGuard } from './guard'
 
 // 路由模式
 const historyCreatorMap = {
@@ -49,5 +50,10 @@ let push = router.push
 router.push = function (to) {
     return push.call(this, to).catch(err => err)
 }
+
+// 前置路由守卫
+beforeEachGuard(router)
+// 后置路由守卫
+afterEachGuard(router)
 
 export default router

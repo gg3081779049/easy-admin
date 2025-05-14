@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import router from '@/router'
-import { removeIf } from '@/utils'
+import { add } from '@/utils'
+import { remove } from 'lodash'
 
 export const useTabsStore = defineStore('tabs', {
     state: () => ({
@@ -16,16 +17,14 @@ export const useTabsStore = defineStore('tabs', {
         init() {
             this.addTab(router.getRoutes().find(route => route.name === this.defaultTab))
         },
+        // 判断是否已存在，若存在不添加
         addTab({ path, fullPath, name, meta, query }) {
-            // 判断是否已存在，若存在不添加
-            if (!this.tabs.some(t => t.path === path)) {
-                this.tabs.push({ path, fullPath, name, meta, query })
-            }
+            let tab = { path, fullPath, name, meta, query }
+            add(this.tabs, tab, (a, b) => a.path === b.path)
         },
         // 删除符合条件的标签
         delTabs(condition) {
-            // 从标签页数组的末尾开始遍历，以便在删除元素时避免索引错乱
-            removeIf(this.tabs, (tab, i) => condition(tab, i) && tab.name !== this.defaultTab)
+            remove(this.tabs, (tab, i) => condition(tab, i) && tab.name !== this.defaultTab)
         }
     },
     persist: {

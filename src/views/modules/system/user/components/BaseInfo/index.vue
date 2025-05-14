@@ -1,5 +1,5 @@
 <template>
-    <el-form class="base-info-form" ref="form" :model="form" :rules="rules" 
+    <el-form class="base-info-form" ref="form" :model="form" :rules="rules"
         label-width="100px" label-position="left" require-asterisk-position="right">
         <el-form-item label="头像">
             <AvatarUpload v-model:img="img" />
@@ -16,8 +16,8 @@
         </el-form-item>
         <el-form-item label="性别" prop="gender">
             <el-radio-group v-model="form.gender">
-                <el-radio :value="0">男</el-radio>
-                <el-radio :value="1">女</el-radio>
+                <el-radio value="0">男 <svg-icon icon="male" /></el-radio>
+                <el-radio value="1">女 <svg-icon icon="female" /></el-radio>
             </el-radio-group>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
@@ -25,14 +25,14 @@
         </el-form-item>
         <el-form-item label="创建时间" prop="createTime">
             <span style="color: var(--el-text-color-regular)">
-                {{ form.createTime }}
+                {{ $parseTime(form.createTime) }}
             </span>
         </el-form-item>
         <el-form-item label="个人简介" prop="brief" class="brief">
             <el-input type="textarea" v-model="form.brief" placeholder="简单介绍一下你自己 ~" :rows="3" maxlength="100" show-word-limit />
         </el-form-item>
         <el-form-item>
-            <easy-button type="primary" :t="$t('提交修改')" :plain="!formChange && !imgChange" @click="submitForm" />
+            <easy-button type="primary" t="提交修改" :plain="!formChange && !imgChange" @click="submitForm" />
         </el-form-item>
     </el-form>
 </template>
@@ -97,30 +97,29 @@ export default {
         ...mapWritableState(useUserStore, ['avatar'])
     },
     methods: {
-        getBaseInfo() {
-            getBaseInfo().then(res => {
-                this.form = res.data
-                this.oldForm = cloneDeep(this.form)
-            })
+        async getBaseInfo() {
+            const { data } = await getBaseInfo()
+            let { avatar, ...form } = data
+            this.form = form
+            this.img = avatar
+            this.oldForm = cloneDeep(this.form)
         },
         submitForm() {
-            this.$refs["form"]?.validate(valid => {
+            this.$refs["form"]?.validate(async valid => {
                 if (valid) {
                     if (this.formChange) {
-                        updateBaseInfo(this.form).then(res => {
-                            this.$modal.message.success(this.$t('message.updateSuccess'))
-                            this.getBaseInfo()
-                        })
+                        await updateBaseInfo(this.form)
+                        this.$modal.message.success(this.$t('message.updateSuccess'))
+                        this.getBaseInfo()
                     }
                     if (this.imgChange) {
                         let blob = dataURLToBlob(this.img)
                         let formData = new FormData()
-                        formData.append('avatarfile', blob)
-                        uploadAvatar(formData).then(res => {
-                            this.$modal.message.success(this.$t('message.updateSuccess'))
-                            this.avatar = this.img
-                            this.imgChange = false
-                        })
+                        formData.append('avatarfile', blob, this.form.id + '.png')
+                        await uploadAvatar(formData)
+                        this.$modal.message.success(this.$t('message.updateSuccess'))
+                        this.avatar = this.img
+                        this.imgChange = false
                     }
                 }
             })
@@ -143,7 +142,6 @@ export default {
 <style lang="scss" scoped>
 .base-info-form {
     padding: 0 8px;
-    overflow: hidden;
     
     .el-form-item {
         align-items: center;

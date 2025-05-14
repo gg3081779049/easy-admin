@@ -1,8 +1,11 @@
 <template>
   <el-breadcrumb separator="/">
-    <el-breadcrumb-item v-for="{ icon, title } in metaList" :key="title">
-      <svg-icon :icon="icon" v-if="showBreadcrumbIcon && icon" />{{ title }}
-    </el-breadcrumb-item>
+    <transition-group name="breadcrumb">
+      <el-breadcrumb-item v-for="{ icon, title } in metaList" :key="title">
+        <svg-icon :icon="icon" v-if="showBreadcrumbIcon && icon" />
+        <span>{{ title }}</span>
+      </el-breadcrumb-item>
+    </transition-group>
   </el-breadcrumb>
 </template>
 
@@ -25,13 +28,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .el-breadcrumb {
-    display: inline-block;
-    font-size: 14px;
+.el-breadcrumb {
+  display: inline-block;
+  font-size: 14px;
 
-    svg {
-      margin-right: 4px;
-      color: var(--el-text-color-regular);
-    }
+  svg {
+    margin-right: 4px;
+    color: var(--el-text-color-regular);
   }
+}
 </style>
